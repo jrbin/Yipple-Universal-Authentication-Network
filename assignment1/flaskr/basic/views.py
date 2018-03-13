@@ -10,7 +10,12 @@ def home():
 def login():
     if request.method == "POST":
         # Implement me
-        return "login request received", 400
+        user, errcode = models.validateUser(request.form.get('username', ''),
+                                            request.form.get('password', ''))
+        if not errcode:
+            session['username'] = user['username']
+            return redirect(url_for('basic.users', account='me'))
+        return 'unsuccessful login', 403
 
     return render_template("login.html")
 
@@ -23,8 +28,13 @@ def logout():
 @app.route('/register', methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # Implement me
-        return "register request received", 400
+        errcode = models.registerUser(request.form.get('username', ''),
+                                      request.form.get('password', ''))
+        if not errcode:
+            return redirect(url_for('basic.login'))
+        if errcode == 400:
+            return 'username is taken', 400
+        return 'server failed', 500
 
     return render_template("register.html")
 
@@ -32,4 +42,4 @@ def register():
 def users(account):
     # Implement me
 
-    return render_template("users.html")
+    return render_template("users.html", account=session['username'])

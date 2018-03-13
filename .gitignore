@@ -4,3 +4,5 @@ Icon
 __pycache__
 .pytest_cache
 Pipfile.lock
+*.egg-info
+user.json

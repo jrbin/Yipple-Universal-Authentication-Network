@@ -18,15 +18,31 @@ class KomradeConfig:
             fh.write(json.dumps(data))
 
 def registerUser(username, password):
+    if not username or not password:
+        return 500
     komrade = KomradeConfig("user")
-    
-    # Implement me
-
-    return None
+    users = komrade.read()
+    user = next((u for uid, u in users.items() if u.get('username') == username), None)
+    if user is None:
+        uid = str(uuid.uuid4())
+        hashedpasswd = bcrypt.hashpw(password.encode(errors='ignore'), bcrypt.gensalt()).decode()
+        users[uid] = {
+            'id': uid,
+            'username': username,
+            'password': hashedpasswd,
+        }
+        komrade.write(users)
+        return None
+    # username exists
+    return 400
 
 def validateUser(username, password):
     komrade = KomradeConfig("user")
-
-    # Implement me
-
-    return None
+    users = komrade.read()
+    user = next((u for uid, u in users.items() if u.get('username') == username), None)
+    if user is None or any([key not in user for key in ['id', 'username', 'password']]):
+        return None, 403
+    hashedpasswd = bcrypt.hashpw(password.encode(errors='ignore'), user['password'].encode(errors='ignore')).decode()
+    if user['password'] != hashedpasswd:
+        return None, 403
+    return user, None

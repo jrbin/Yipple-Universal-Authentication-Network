@@ -20,3 +20,8 @@ def insertDB(query, args=(), one=False):
     db = getDB()
     db.execute(query, args)
     db.commit()
+
+def updateDB(query, args=(), one=False):
+    db = getDB()
+    db.execute(query, args)
+    db.commit()

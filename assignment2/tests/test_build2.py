@@ -78,6 +78,7 @@ class TestApp:
         assert user_data['username'].encode('utf-8') in res.data
 
         # Check own creds appear
+        print(res.data)
         assert carol_creds['name'].encode('utf-8') in res.data
         assert carol_creds['address'].encode('utf-8') in res.data
         assert carol_creds['email'].encode('utf-8') in res.data

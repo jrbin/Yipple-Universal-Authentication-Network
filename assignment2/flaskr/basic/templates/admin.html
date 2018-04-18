@@ -1,6 +1,35 @@
 {% extends "base.html" %}
 {% block page_title %}Login{% endblock %}
 {% block content %}
+
+<style>
+        .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+
+    .button1:hover {
+        background-color: white;
+        color: black;
+        border: 2px solid #555555;
+    }
+
+    .button1 {
+        background-color: #555555;
+        color: white;
+    }
+    </style>
+
 <h1 class="mt-5">Account Administration Portal</h1>
 
 <!-- TODO: Implement the user account search -->
@@ -9,7 +38,7 @@
     <p>Search for an existing user</p>
     <!-- TODO: Implement the user search form-->
     <h3>Search</h3>
-    <form method="get">
+    <form action="{{ url_for( 'basic.admin' )}}" method="get">
         <input type="text" name="search"></input>
         <button type="submit" class="btn">Search</button>
     </form>
@@ -27,24 +56,39 @@ to edit and update the credentials of any given KomradeBank account.
         <thead>
             <th>Name</th>
             <th>Address</th>
-            <th>Emaik</th>
+            <th>Email</th>
             <th>Phone</th>
             <th>Current Funds</th>
         </thead>
         <!-- IMPLEMENT ME -->
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{userinfo[1]}}</td>
+                <td>{{userinfo[2]}}</td>
+                <td>{{userinfo[3]}}</td>
+                <td>{{userinfo[4]}}</td>
+                <td>{{userinfo[5]}}</td>
             </tr>
         </tbody>
     </table>
 
     <h3>Edit credentials for {{ user }} </h3>
-    <form><!-- IMPLEMENT ME --></form>
+    <h3>{{ admin }}</h3>
+    {% if admin %}
+    <form action="{{ url_for( 'basic.admin', search = user )}}" method="post">
+            <input type="hidden" name="username" value="{{ user }}">
+            Name: <input type="text" name="name" value="{{ Name }}"><br>
+            Address: <input type="text" name="address" value="{{ Address }}"><br>
+            Email: <input type="text" name="email" value="{{ Email }}"><br>
+            Phone Number: <input type="text" name="phonenum" value="{{ PhoneNum }}"><br>
+            Funds: <input type="text" name="funds" value="{{ Funds }}"><br>
+            <button class="button button1" type="submit">Submit</button>
+        </form>
+    {% endif %}
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
 
     {% else %}
     <p>Search for a user to edit their credentials</p>

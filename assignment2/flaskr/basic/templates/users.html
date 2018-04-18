@@ -1,17 +1,64 @@
 {% extends "base.html" %}
 {% block page_title %}User{% endblock %}
 {% block content %}
+
+<style>
+    .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.button1 {
+    background-color: #555555;
+    color: white;
+}
+</style>
+
 <h1 class="mt-5">User</h1>
 
 {% if username %}
-<h5>Welcome, {{ username }}, what can we do for you today?</h5>
+<h5>Welcome, {{ session.username }}, what can we do for you today?</h5>
+</br>
+<h3> {{ uinfo }}</h3>
+
 
 <h3>View your Credentials</h3>
-<p>Implement Me</p>
+<p>Name: {{ Name }}</p>
+<p>Address : {{ Address }}</p>
+<p>Email : {{ Email }}</p>
+<p>Phone Numebr: {{ PhoneNum }}</p>
+<p>Funds : {{ Funds }}</p>
 
 <h3>Edit your Credentials</h3>
-<p>Implement Me</p>
 
+    {% if update_msg %}
+    <br><h4>{{ update_msg }}</h4>
+    {% endif %}
+    <form action="{{ url_for( 'basic.users', account = username )}}" method="post">
+        Name: <input type="text" name="name" value="{{ Name }}"><br>
+        Address: <input type="text" name="address" value="{{ Address }}"><br>
+        Email: <input type="text" name="email" value="{{ Email }}"><br>
+        Phone Number: <input type="text" name="phonenum" value="{{ PhoneNum }}"><br>
+        Funds: <input type="text" name="funds" value="{{ Funds }}"><br>
+        <input type="text" name="username" value="{{ username }}" hidden>
+        <button class="button button1" type="submit">Submit</button>
+    </form>
 {% else %}
 <h3>403 permission denied</h3>
 <p>

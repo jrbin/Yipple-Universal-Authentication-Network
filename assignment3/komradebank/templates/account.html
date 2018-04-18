@@ -15,7 +15,7 @@
         {% for x in xacts %}
         <tr>
             <td>{{ x.timestamp }}</td>
-            <td>{{ x.memo | urlencode }}</td>
+            <td>{{ x.memo }}</td>
             <td {% if x.amount >= 0 %}  class="table-success"
                 {% else %}              class="table-danger"
                 {% endif %}}>{{ "${:,.2f}".format(x.amount) }}</td>

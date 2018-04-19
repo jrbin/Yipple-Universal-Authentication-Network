@@ -287,7 +287,7 @@ class Xact:
 
     @staticmethod
     def by_acct_id(acct_id):
-        rows = db.select('SELECT * FROM xacts WHERE xact_acct = ? ORDER BY xact_timestamp DESC', [acct_id])
+        rows = db.select('SELECT * FROM xacts WHERE xact_acct = ? ORDER BY xact_id DESC', [acct_id])
         result = []
         for row in rows:
             result.append(Xact._from_row(row))
@@ -295,7 +295,7 @@ class Xact:
 
     @staticmethod
     def by_filter(filter):
-        rows = db.select('SELECT * FROM xacts WHERE xact_memo LIKE ?', ['%{}%'.format(filter)])
+        rows = db.select('SELECT * FROM xacts WHERE xact_memo LIKE ? ORDER BY xact_id DESC', ['%{}%'.format(filter)])
         result = []
         for row in rows:
             result.append(Xact._from_row(row))
